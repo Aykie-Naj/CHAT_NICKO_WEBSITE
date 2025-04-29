@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Nicko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 70px;
+            height: 100vh;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+        
+        .sidebar-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .sidebar-icon.active {
+            background-color: #e5e1ff;
+        }
+        
+        .profile-icon {
+            background-color: #6c4ed9;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .icon-home, .icon-messages, .icon-calendar, .icon-add, .icon-settings, .icon-favorites {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-icon {
+            margin-right: 10px;
+            color: #999;
+        }
+        
+        .search-input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .browse-button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .notification-icon, .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        
+        .welcome-banner {
+            background-color: #1e1a4a;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .banner-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .banner-subtitle {
+            font-size: 16px;
+        }
+        
+        .decoration {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .decoration-left {
+            left: 10px;
+            top: 40px;
+            font-size: 100px;
+            color: rgba(236, 130, 240, 0.5);
+        }
+        
+        .decoration-right {
+            right: 20px;
+            bottom: 0;
+            font-size: 100px;
+            color: rgba(67, 209, 144, 0.5);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .card-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .card {
+            min-width: 180px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-popular {
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 15px;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-author {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .mentors-section {
+            background-color: #222;
+            color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-left: 20px;
+            width: 250px;
+        }
+        
+        .mentors-title {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .mentor {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .mentor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #444;
+            margin-right: 10px;
+        }
+        
+        .mentor-info {
+            flex: 1;
+        }
+        
+        .mentor-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .mentor-specialty {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .rating {
+            color: gold;
+            letter-spacing: 2px;
+            font-size: 12px;
+        }
+        
+        .content-wrapper {
+            display: flex;
+        }
+        
+        .main-section {
+            flex: 1;
+        }
+        
+        .decoration-element {
+            font-size: 40px;
+            position: absolute;
+        }
+        
+        /* Calendar Styles */
+        .calendar-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .calendar-header {
+            background-color: #4299e1; /* Tailwind's blue-500 */
+            color: white;
+        }
+        
+        .calendar-header th {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .calendar-cell {
+            height: 100px;
+            text-align: center;
+            vertical-align: top;
+            border: 1px solid #e2e8f0; /* Tailwind's gray-200 */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .calendar-cell:hover {
+            background-color: #edf2f7; /* Tailwind's gray-100 */
+        }
+        
+        .calendar-cell.selected {
+            background-color: #4299e1; /* Tailwind's blue-500 */
+            color: white;
+            font-weight: bold;
+        }
+        
+        .event-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .event-item {
+            background-color: #edf2f7; /* Tailwind's gray-100 */
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .close-calendar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 110;
+            background-color: #f0f0f0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-icon profile-icon">CN</div>
+        <div class="sidebar-icon icon-home active" id="homeButton">🏠</div>
+        <div class="sidebar-icon icon-messages">✉️</div>
+        <div class="sidebar-icon icon-calendar" id="calendarButton">📅</div>
+        <div class="sidebar-icon icon-add">➕</div>
+        <div class="sidebar-icon icon-settings">⚙️</div>
+        <div class="sidebar-icon icon-favorites">⭐</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="homeContent">
+        <!-- Header with Search Bar -->
+        <div class="header">
+            <div class="search-bar">
+                <div class="search-icon">🔍</div>
+                <input type="text" class="search-input" placeholder="Search...">
+                <div class="browse-button">Browse ▼</div>
+            </div>
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">👤</div>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="main-section">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="banner-content">
+                        <div class="banner-title">Hi! Welcome to Chat Nicko</div>
+                        <div class="banner-subtitle">Your campus, your connections, your future</div>
+                    </div>
+                    <div class="decoration decoration-left">e</div>
+                    <div class="decoration decoration-right">@</div>
+                </div>
+            
+                <!-- Popular Section -->
+                <div class="section-title">Popular</div>
+                <div class="card-container">
+                    <div class="card card-popular">
+                        <div class="card-title">Coding</div>
+                        <div class="card-author">Jan Nicko</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Easy Programming</div>
+                        <div class="card-author">Daniel T.</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Video Filming</div>
+                        <div class="card-author">Ryan G.</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Edit with Me</div>
+                        <div class="card-author">Kris J.</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Hardware</div>
+                        <div class="card-author">Lola Ann</div>
+                    </div>
+                </div>
+                
+                <!-- Classes Section -->
+                <div class="section-title">Classes</div>
+                <div class="card-container">
+                    <div class="card card-popular">
+                        <div class="card-title">HTML</div>
+                        <div class="card-author">Web Dev</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Teaching</div>
+                        <div class="card-author">Education</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">JavaScript</div>
+                        <div class="card-author">Programming</div>
+                    </div>
+                    <div class="card card-popular">
+                        <div class="card-title">Design</div>
+                        <div class="card-author">Graphics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mentors Section -->
+            <div class="mentors-section">
+                <div class="mentors-title">Top Mentors</div>
+                <div class="mentor">
+                    <div class="mentor-avatar"></div>
+                    <div class="mentor-info">
+                        <div class="mentor-name">Jan Nicko</div>
+                        <div class="mentor-specialty">Coding</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="mentor">
+                    <div class="mentor-avatar"></div>
+                    <div class="mentor-info">
+                        <div class="mentor-name">Ryan G.</div>
+                        <div class="mentor-specialty">Programming</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                </div>
+                <div class="mentor">
+                    <div class="mentor-avatar"></div>
+                    <div class="mentor-info">
+                        <div class="mentor-name">Daniel T.</div>
+                        <div class="mentor-specialty">Programming</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Calendar View -->
+    <div class="calendar-view" id="calendarView">
+        <div class="close-calendar" id="closeCalendar">✕</div>
+        <div class="flex h-screen">
+            <!-- Sidebar -->
+            <div class="w-1/6 bg-blue-700 p-4">
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-2 rounded-full mb-4">
+                        <div class="rounded-full bg-gray-300 h-12 w-12 flex items-center justify-center">👤</div>
+                    </div>
+                    <div class="text-white text-center mb-4">
+                        <p class="text-lg">User Name</p>
+                        <p class="text-sm">user@example.com</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded mb-2">Dashboard</button>
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded mb-2">Calendar</button>
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded mb-2">Settings</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="flex-1 p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <input class="border border-gray-300 rounded py-2 px-4" placeholder="Search..." type="text"/>
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-500"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-blue-500 text-white py-2 px-4 rounded">+ Add</button>
+                        <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Month</button>
+                        <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Week</button>
+                        <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Day</button>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded shadow">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center space-x-2">
+                            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">January</button>
+                            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">2023</button>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Today</button>
+                            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Prev</button>
+                            <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded">Next</button>
+                        </div>
+                    </div>
+                    <table class="calendar-table">
+                        <thead class="calendar-header">
+                            <tr>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Scheduled Events Section -->
+                <div class="bg-white p-4 rounded shadow mt-4">
+                    <h2 class="text-xl font-bold mb-4">Scheduled Events</h2>
+                    <div class="event-list">
+                        <div class="event-item">
+                            <p class="font-semibold">Meeting with Team</p>
+                            <p class="text-sm text-gray-600">January 15, 2023 - 10:00 AM</p>
+                        </div>
+                        <div class="event-item">
+                            <p class="font-semibold">Project Deadline</p>
+                            <p class="text-sm text-gray-600">January 20, 2023 - 5:00 PM</p>
+                        </div>
+                        <div class="event-item">
+                            <p class="font-semibold">Client Presentation</p>
+                            <p class="text-sm text-gray-600">January 25, 2023 - 2:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get elements
+        const homeButton = document.getElementById('homeButton');
+        const calendarButton = document.getElementById('calendarButton');
+        const closeCalendar = document.getElementById('closeCalendar');
+        const homeContent = document.getElementById('homeContent');
+        const calendarView = document.getElementById('calendarView');
+        
+        // Event listeners
+        calendarButton.addEventListener('click', function() {
+            homeContent.style.display = 'none';
+            calendarView.style.display = 'block';
+            
+            // Update active states
+            homeButton.classList.remove('active');
+            calendarButton.classList.add('active');
+        });
+        
+        homeButton.addEventListener('click', function() {
+            calendarView.style.display = 'none';
+            homeContent.style.display = 'block';
+            
+            // Update active states
+            calendarButton.classList.remove('active');
+            homeButton.classList.add('active');
+        });
+        
+        closeCalendar.addEventListener('click', function() {
+            calendarView.style.display = 'none';
+            homeContent.style.display = 'block';
+            
+            // Update active states
+            calendarButton.classList.remove('active');
+            homeButton.classList.add('active');
+        });
+        
+        // Calendar cell selection
+        const calendarCells = document.querySelectorAll('.calendar-cell');
+        calendarCells.forEach(cell => {
+            cell.addEventListener('click', function() {
+                // Remove selected class from all cells
+                calendarCells.forEach(c => c.classList.remove('selected'));
+                
+                // Add selected class to clicked cell
+                if(cell.textContent.trim() !== '') {
+                    cell.classList.add('selected');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
