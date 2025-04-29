@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mentor Dashboard - Student Status</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .flex {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 4rem;
+            background-color: #1f2937;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0;
+            gap: 1.5rem;
+        }
+
+        .sidebar img {
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .sidebar i {
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .sidebar i:hover {
+            color: #9ca3af;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info img {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .student-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .student-table th, .student-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .student-table th {
+            background-color: #f9fafb;
+            color: #374151;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .status.active {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status.pending {
+            background-color: #fef9c3;
+            color: #92400e;
+        }
+
+        .status.inactive {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 600px) {
+            .student-table th, .student-table td {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex">
+        <aside class="sidebar">
+            <img src="https://storage.googleapis.com/a1aa/image/203jKg3acZCnUAjzfPRleuYOCTXj8FSxTCyt0_Kj9PU.jpg" alt="Logo" />
+            <i>&#9993;</i>
+            <i>&#128197;</i>
+            <i>&#8853;</i>
+            <i>&#9881;</i>
+            <i>&#10162;</i>
+        </aside>
+        <main class="main-content">
+            <div class="header">
+                <h1 class="section-title">Student Dashboard</h1>
+                <div class="user-info">
+                    <i>&#128276;</i>
+                    <img src="https://storage.googleapis.com/a1aa/image/CBgm4brCowfiJFsiw1W-BEEZXiH8TGd_zA-Q_PLQDXk.jpg" alt="Mentor Avatar" />
+                    <span>Mentor: Juan T.</span>
+                </div>
+            </div>
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Last Session</th>
+                        <th>Next Session</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Maria Lopez</td>
+                        <td>Basic Programming</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>April 25, 2025</td>
+                        <td>May 2, 2025</td>
+                    </tr>
+                    <tr>
+                        <td>James Smith</td>
+                        <td>Cyber Security</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td>April 20, 2025</td>
+                        <td>Awaiting</td>
+                    </tr>
+                    <tr>
+                        <td>Angela Cruz</td>
+                        <td>CSS</td>
+                        <td><span class="status inactive">Inactive</span></td>
+                        <td>March 15, 2025</td>
+                        <td>N/A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

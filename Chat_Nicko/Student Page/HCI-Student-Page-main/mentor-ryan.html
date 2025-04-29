@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan G. - Chat Nicko</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-color: #f5f5f5;
+            color: #000000;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #1c1c6b; /* Navy blue */
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .logo a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .nav-section {
+            margin-bottom: 20px;
+        }
+        
+        .menu-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .menu-item a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .menu-item .icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .enroll-button {
+            background-color: #6302a1; /* Dark purple */
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            transition: background-color 0.3s;
+        }
+        
+        .enroll-button:hover {
+            background-color: #7a03c7;
+        }
+        
+        .enroll-button .icon {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .bottom-nav {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        /* Top Navigation Styles */
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 30px;
+            height: 70px;
+        }
+        
+        .search-container {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 20px;
+            padding: 8px 15px;
+            box-shadow: 6px 6px 6px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 5px;
+            width: 100%;
+        }
+        
+        .search-icon {
+            color: #666;
+            margin-right: 5px;
+        }
+        
+        .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .notification-icon, .messages-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .notification-icon:hover, .messages-icon:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .profile-name {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #1c1c6b;
+        }
+        
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1c1c6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            z-index: 100;
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .profile-menu:hover .profile-dropdown {
+            display: block;
+        }
+        
+        .dropdown-header {
+            padding: 10px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            color: #1c1c6b;
+        }
+        
+        .dropdown-item {
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+            color: #6302a1;
+        }
+        
+        .profile-divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 5px 0;
+        }
+        
+        .welcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1c1c6b;
+            padding-top: 80px;
+        }
+        
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+            color: #6302a1;
+        }
+        
+        .content-block {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 4px solid #6302a1;
+        }
+        
+        .item-list {
+            list-style-type: none;
+        }
+        
+        .item-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .item-list a {
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .item-list .author {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .mentor-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 3px solid #1c1c6b;
+        }
+        
+        .mentor-card a {
+            color: #000000;
+            text-decoration: none;
+        }
+        
+        .mentor-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1c1c6b;
+        }
+        
+        .mentor-skill {
+            font-size: 13px;
+            color: #6302a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Chat Nicko Logo" style="width: 200px; height: 200px; margin-bottom: 10px; text-align: right;">
+                <div>Chat Nicko</div>
+            </a>
+        </div>        
+        <div class="tagline">Your campus, your connections, your future.</div>
+
+        <div class="nav-section">
+            <div class="menu-item">
+                <a href="home-student-page.html">
+                    <span class="icon">🏠</span>
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="email.html">
+                    <span class="icon">✉️</span>
+                    <span>Email</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="calendar.html">
+                    <span class="icon">📅</span>
+                    <span>Calendar</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-section bottom-nav">
+            <div class="menu-item">
+                <a href="settings.html">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <div class="top-nav">
+            <div class="search-container">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+            </div>
+
+            <div class="right-icons">
+                <div class="notification-icon" title="Notifications"><a href="notification.html" style="text-decoration: none;">🔔</a></div>
+                <div class="profile-menu">
+                <a href="my-profile.html" style="text-decoration: none;">
+                    <span class="profile-name">My Profile</span>
+                </a>
+                    <div class="profile-image">👦</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content for Ryan G. -->
+        <h1 class="welcome">Instructor Profile: Ryan G.</h1>
+
+        <div>
+            <h2 class="section-header">About Ryan</h2>
+            <div class="content-block">
+                <p>
+                    <strong>Ryan G.</strong> is a talented video production specialist with a passion for teaching storytelling through film and media.  
+                    <br><br>
+                    With a strong background in editing, directing, and production design, Ryan guides students in mastering both the technical and creative sides of video filmmaking.
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="section-header">Expertise</h2>
+            <div class="content-block">
+                <ul class="item-list">
+                    <li>Video Production & Filming</li>
+                    <li>Scriptwriting and Storyboarding</li>
+                    <li>Editing Techniques (Adobe Premiere, Final Cut)</li>
+                    <li>Lighting and Sound Design</li>
+                    <li>Content Creation for Social Media</li>
+                </ul>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="section-header">Contact Ryan</h2>
+            <div class="content-block">
+                <p>
+                    📧 <strong>Email:</strong> ryangolingab@chatnicko.com <br>
+                    📅 <strong>Available for workshops:</strong> Wednesdays and Fridays
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="section-header">Courses by Ryan</h2>
+            <div class="content-block">
+                <ul class="item-list">
+                    <li><a href="video-filming.html"><span>Video Filming Basics</span></a></li>
+                    <li><a href="#"><span>Advanced Film Production</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
